@@ -1,0 +1,62 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Car {
+  brand     String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  model     String?
+  speed     Float?
+  updatedAt DateTime @updatedAt
+}
+
+model Player {
+  createdAt    DateTime      @default(now())
+  email        String?
+  id           String        @id @default(cuid())
+  leaderboards Leaderboard[]
+  races        Race[]
+  scores       Score[]
+  updatedAt    DateTime      @updatedAt
+  username     String?
+}
+
+model Race {
+  createdAt    DateTime      @default(now())
+  date         DateTime?
+  id           String        @id @default(cuid())
+  leaderboards Leaderboard[]
+  player       Player?       @relation(fields: [playerId], references: [id])
+  playerId     String?
+  scores       Score[]
+  track        String?
+  updatedAt    DateTime      @updatedAt
+}
+
+model Score {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  player    Player?  @relation(fields: [playerId], references: [id])
+  playerId  String?
+  race      Race?    @relation(fields: [raceId], references: [id])
+  raceId    String?
+  updatedAt DateTime @updatedAt
+  value     Int?
+}
+
+model Leaderboard {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  player    Player?  @relation(fields: [playerId], references: [id])
+  playerId  String?
+  position  Int?
+  race      Race?    @relation(fields: [raceId], references: [id])
+  raceId    String?
+  updatedAt DateTime @updatedAt
+}
