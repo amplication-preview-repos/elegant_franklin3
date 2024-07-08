@@ -1,0 +1,49 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Race {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Map {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  firstName String?
+  lastName  String?
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  roles     Json
+}
+
+model Car {
+  id                          String   @id @default(cuid())
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+  sscTuatara                  String?
+  koenigseggJeskoAbsolut      String?
+  speed                       Int?
+  bugattiVeyronSuperSport     String?
+  rimacCTwo                   String?
+  koenigseggGemera            String?
+  pininfarinaBattista         String?
+  porsche_918Spyder           String?
+  astonMartinOne_77           String?
+  bugattiChironSuperSport_300 String?
+  hennesseyVenomF5            String?
+}
